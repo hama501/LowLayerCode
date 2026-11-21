@@ -1,0 +1,5 @@
+Debug/
+Release/
+*.tar
+Claude outputs/
+BeltDrive Debug.launch
