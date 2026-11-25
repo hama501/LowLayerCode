@@ -51,6 +51,10 @@
 
 #define FB_TX_PERIOD_MS			1	//フィードバックの送信周期[ms]
 
+#define MODE_TX_ID				0x022	//全モーターの制御モードの送信ID(4バイト、バイト0〜3が軸0〜3)。フィードバックと同じ周期で送る
+//  0: モーターなし  1: CURRENT  2: VELOCITY  3: POSITION
+//  4: GRIP(OFF・RELEASE)  5: GRIP(SQUEEZE・HOLD)  6: GRIP(APPROACH)
+
 #define LIMIT_SW_TX_ID			0x070	//リミットスイッチの状態の送信ID(1バイト、ビット0〜3がスイッチ0〜3、1=押されている)。どれかが押されている間だけ送る
 
 //全体への指令の受信ID
@@ -108,5 +112,6 @@ bool Motor_Use_Vesc_Rpm(int i);
 void send_motor_current_data(void);
 void send_feedback_data(int i);
 void send_limit_switch_data(void);
+void send_mode_data(void);
 
 #endif

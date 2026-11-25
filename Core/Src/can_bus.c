@@ -43,6 +43,7 @@ __attribute__((unused)) static void CAN1_ID_Duplicate_Check(uint32_t id)
 	case SERVO3_ANGLE_RX_ID:
 	case SERVO3_MODE_RX_ID:
 	case LIMIT_SW_TX_ID:
+	case MODE_TX_ID:
 		break;
 	default:
 		break;

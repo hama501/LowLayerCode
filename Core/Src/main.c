@@ -121,6 +121,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 				send_feedback_data(i);	//CAN1: PCへフィードバック
 			}
 			send_limit_switch_data();
+			send_mode_data();
 		}
 
 		Frame_Count_Reset();

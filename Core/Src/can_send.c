@@ -156,6 +156,53 @@ void send_feedback_data(int i)
 	CAN_Send(&hcan1, &TxHeader, TxData);
 }
 
+//全モーターの制御モードをまとめて送る(値の意味はcan_send.hのMODE_TX_IDの説明)
+void send_mode_data(void)
+{
+	uint8_t TxData[8] = {0};
+	CAN_TxHeaderTypeDef TxHeader = {0};
+
+	for (int i = 0; i < MOTOR_NUM; i++)
+	{
+		switch (mode[i])
+		{
+		case CURRENT:
+			TxData[i] = 1;
+			break;
+		case VELOCITY:
+			TxData[i] = 2;
+			break;
+		case POSITION:
+			TxData[i] = 3;
+			break;
+		case GRIP:
+			if (grip_state[i] == GRIP_APPROACH)
+			{
+				TxData[i] = 6;
+			}
+			else if (grip_state[i] == GRIP_SQUEEZE || grip_state[i] == GRIP_HOLD)
+			{
+				TxData[i] = 5;
+			}
+			else
+			{
+				TxData[i] = 4;
+			}
+			break;
+		default:
+			TxData[i] = 0;
+			break;
+		}
+	}
+
+	TxHeader.DLC    = MOTOR_MAX;
+	TxHeader.RTR    = CAN_RTR_DATA;
+	TxHeader.IDE    = CAN_ID_STD;
+	TxHeader.StdId  = MODE_TX_ID;
+
+	CAN_Send(&hcan1, &TxHeader, TxData);
+}
+
 //リミットスイッチがどれか押されている間だけ、状態をまとめて送る
 void send_limit_switch_data(void)
 {
